@@ -10,7 +10,7 @@ let ip = data.ip;
 
 /* IP wifi nhà - lát nữa bạn thay */
 
-let homeIP = "YOUR_HOME_IP";
+let homeIP = "113.180.46.7";
 
 if(user === "admin" && pass === "12345"){
 
