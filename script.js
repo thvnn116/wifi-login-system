@@ -1,42 +1,6 @@
-async function login(){
-
-let user = document.getElementById("user").value;
-let pass = document.getElementById("pass").value;
-
-let device = await getDeviceID();
-
-let savedDevice = localStorage.getItem("device_"+user);
-
-if(user === "admin" && pass === "12345"){
-
-if(!savedDevice){
-
-localStorage.setItem("device_"+user,device);
-
-}else if(savedDevice !== device){
-
-alert("Thiết bị này không được phép đăng nhập tài khoản này");
-
-return;
-
-}
-
-localStorage.setItem("login","true");
-
-window.location="dashboard.html";
-
-}else{
-
-alert("Sai tài khoản hoặc mật khẩu");
-
-}
-
-}
-
 async function getDeviceID(){
 
 const fp = await FingerprintJS.load();
-
 const result = await fp.get();
 
 return result.visitorId;
@@ -44,31 +8,77 @@ return result.visitorId;
 }
 
 
-/* Dashboard */
+/* REGISTER */
 
-if(window.location.pathname.includes("dashboard")){
+async function register(){
 
-if(localStorage.getItem("login") !== "true"){
+let user = document.getElementById("newuser").value;
+let pass = document.getElementById("newpass").value;
 
-window.location="index.html";
+if(!user || !pass){
+
+alert("Nhập đầy đủ thông tin");
+return;
 
 }
 
-fetch("https://api.ipify.org?format=json")
-.then(res=>res.json())
-.then(data=>{
+let device = await getDeviceID();
 
-document.getElementById("ip").innerText=data.ip;
+let users = JSON.parse(localStorage.getItem("users") || "{}");
 
-});
+if(users[user]){
+
+alert("Tài khoản đã tồn tại");
+return;
+
+}
+
+users[user] = {
+password:pass,
+device:device
+};
+
+localStorage.setItem("users",JSON.stringify(users));
+
+alert("Đăng ký thành công");
+
+}
 
 
-let ua=navigator.userAgent;
+/* LOGIN */
 
-document.getElementById("device").innerText=navigator.platform;
+async function login(){
 
-document.getElementById("browser").innerText=ua;
+let user = document.getElementById("user").value;
+let pass = document.getElementById("pass").value;
 
-document.getElementById("os").innerText=navigator.platform;
+let device = await getDeviceID();
+
+let users = JSON.parse(localStorage.getItem("users") || "{}");
+
+if(!users[user]){
+
+alert("Tài khoản không tồn tại");
+return;
+
+}
+
+if(users[user].password !== pass){
+
+alert("Sai mật khẩu");
+return;
+
+}
+
+if(users[user].device !== device){
+
+alert("Thiết bị này không được phép đăng nhập tài khoản này");
+return;
+
+}
+
+localStorage.setItem("login","true");
+
+window.location="dashboard.html";
 
 }
