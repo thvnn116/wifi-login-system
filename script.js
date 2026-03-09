@@ -1,5 +1,5 @@
 /* tạo device id */
-console.log("JS LOADED SUCCESS");
+
 async function getDeviceID(){
 
 const fp = await FingerprintJS.load();
