@@ -1,3 +1,5 @@
+/* tạo device id */
+
 async function getDeviceID(){
 
 const fp = await FingerprintJS.load();
@@ -8,6 +10,7 @@ return result.visitorId;
 }
 
 
+
 /* REGISTER */
 
 async function register(){
@@ -15,9 +18,9 @@ async function register(){
 let user = document.getElementById("newuser").value;
 let pass = document.getElementById("newpass").value;
 
-if(!user || !pass){
+if(user === "" || pass === ""){
 
-alert("Nhập đầy đủ thông tin");
+alert("Vui lòng nhập đầy đủ thông tin");
 return;
 
 }
@@ -34,8 +37,10 @@ return;
 }
 
 users[user] = {
-password:pass,
-device:device
+
+password: pass,
+device: device
+
 };
 
 localStorage.setItem("users",JSON.stringify(users));
@@ -45,14 +50,13 @@ alert("Đăng ký thành công");
 }
 
 
+
 /* LOGIN */
 
 async function login(){
 
 let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
-
-let device = await getDeviceID();
 
 let users = JSON.parse(localStorage.getItem("users") || "{}");
 
@@ -70,6 +74,8 @@ return;
 
 }
 
+let device = await getDeviceID();
+
 if(users[user].device !== device){
 
 alert("Thiết bị này không được phép đăng nhập tài khoản này");
@@ -78,6 +84,8 @@ return;
 }
 
 localStorage.setItem("login","true");
+
+alert("Đăng nhập thành công");
 
 window.location="dashboard.html";
 
