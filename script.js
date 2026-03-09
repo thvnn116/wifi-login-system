@@ -46,6 +46,9 @@ async function register() {
 
 async function login(){
 
+console.log("Saved device:", users[username].deviceId);
+console.log("Current device:", deviceId);
+
 let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
 
