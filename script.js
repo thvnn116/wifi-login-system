@@ -46,8 +46,8 @@ async function register() {
 
 async function login(){
 
-const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+const username = document.getElementById("newUsername").value;
+const password = document.getElementById("newPassword").value;
 
   const deviceId = await getDeviceID();
 
