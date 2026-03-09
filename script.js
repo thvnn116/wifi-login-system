@@ -13,40 +13,31 @@ return result.visitorId;
 
 /* REGISTER */
 
-async function register(){
+async function register() {
 
-let user = document.getElementById("newuser").value;
-let pass = document.getElementById("newpass").value;
+ const username = document.getElementById("newUsername").value;
+ const password = document.getElementById("newPassword").value;
 
-if(user === "" || pass === ""){
+ const deviceId = await getDeviceID();
 
-alert("Vui lòng nhập đầy đủ thông tin");
-return;
+ let users = JSON.parse(localStorage.getItem("users")) || {};
 
-}
+ // kiểm tra device đã đăng ký account khác chưa
+ for (let user in users) {
+   if (users[user].deviceId === deviceId) {
+     alert("Thiết bị này đã đăng ký tài khoản khác!");
+     return;
+   }
+ }
 
-let device = await getDeviceID();
+ users[username] = {
+   password: password,
+   deviceId: deviceId
+ };
 
-let users = JSON.parse(localStorage.getItem("users") || "{}");
+ localStorage.setItem("users", JSON.stringify(users));
 
-if(users[user]){
-
-alert("Tài khoản đã tồn tại");
-return;
-
-}
-
-users[user] = {
-
-password: pass,
-device: device
-
-};
-
-localStorage.setItem("users",JSON.stringify(users));
-
-alert("Đăng ký thành công");
-
+ alert("Đăng ký thành công");
 }
 
 
