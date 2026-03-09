@@ -3,34 +3,43 @@ async function login(){
 let user = document.getElementById("user").value;
 let pass = document.getElementById("pass").value;
 
-let response = await fetch("https://api.ipify.org?format=json");
-let data = await response.json();
+let device = await getDeviceID();
 
-let ip = data.ip;
-
-/* IP wifi nhà - lát nữa bạn thay */
-
-let homeIP = "113.180.46.7";
+let savedDevice = localStorage.getItem("device_"+user);
 
 if(user === "admin" && pass === "12345"){
 
-if(ip.startsWith(homeIP)){
+if(!savedDevice){
+
+localStorage.setItem("device_"+user,device);
+
+}else if(savedDevice !== device){
+
+alert("Thiết bị này không được phép đăng nhập tài khoản này");
+
+return;
+
+}
 
 localStorage.setItem("login","true");
 
-window.location = "dashboard.html";
+window.location="dashboard.html";
 
 }else{
 
-alert("Bạn phải đăng nhập bằng WiFi tại nhà");
+alert("Sai tài khoản hoặc mật khẩu");
 
 }
 
-}else{
-
-document.getElementById("msg").innerText="Sai tài khoản hoặc mật khẩu";
-
 }
+
+async function getDeviceID(){
+
+const fp = await FingerprintJS.load();
+
+const result = await fp.get();
+
+return result.visitorId;
 
 }
 
