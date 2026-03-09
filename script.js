@@ -46,40 +46,29 @@ async function register() {
 
 async function login(){
 
-console.log("Saved device:", users[username].deviceId);
-console.log("Current device:", deviceId);
+const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-let user = document.getElementById("user").value;
-let pass = document.getElementById("pass").value;
+  const deviceId = await getDeviceID();
 
-let users = JSON.parse(localStorage.getItem("users") || "{}");
+  let users = JSON.parse(localStorage.getItem("users")) || {};
 
-if(!users[user]){
+  if (!users[username]) {
+    alert("Tài khoản không tồn tại");
+    return;
+  }
 
-alert("Tài khoản không tồn tại");
-return;
+  if (users[username].password !== password) {
+    alert("Sai mật khẩu");
+    return;
+  }
 
-}
+  if (users[username].deviceId !== deviceId) {
+    alert("Thiết bị này không được phép đăng nhập tài khoản này");
+    return;
+  }
 
-if(users[user].password !== pass){
-
-alert("Sai mật khẩu");
-return;
-
-}
-
-let device = await getDeviceID();
-
-if(users[user].device !== device){
-
-alert("Thiết bị này không được phép đăng nhập tài khoản này");
-return;
-
-}
-
-localStorage.setItem("login","true");
-
-alert("Đăng nhập thành công");
+  alert("Đăng nhập thành công!");
 
 window.location="dashboard.html";
 
