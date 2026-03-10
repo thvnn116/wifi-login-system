@@ -67,6 +67,10 @@ async function register() {
 
   alert("Đăng ký thành công");
 
+  // XÓA DỮ LIỆU INPUT
+  document.getElementById("newUsername").value = "";
+  document.getElementById("newPassword").value = "";
+
 }
 
 
