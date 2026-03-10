@@ -1,100 +1,119 @@
-/* tạo device id */
+/* DEVICE ID */
 
-async function getDeviceID(){
+async function getDeviceID() {
 
-const fp = await FingerprintJS.load();
-const result = await fp.get();
+  const fp = await FingerprintJS.load();
+  const result = await fp.get();
 
-return result.visitorId;
+  return result.visitorId;
 
 }
-
 
 
 /* REGISTER */
 
 async function register() {
 
- const username = document.getElementById("newUsername").value;
- const password = document.getElementById("newPassword").value;
+  const username = document.getElementById("newUsername").value;
+  const password = document.getElementById("newPassword").value;
 
- const deviceId = await getDeviceID();
+  if (!username || !password) {
+    alert("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
 
- let users = JSON.parse(localStorage.getItem("users")) || {};
+  const deviceId = await getDeviceID();
 
- // kiểm tra device đã đăng ký account khác chưa
- for (let user in users) {
-   if (users[user].deviceId === deviceId) {
-     alert("Thiết bị này đã đăng ký tài khoản khác!");
-     return;
-   }
- }
+  let users = JSON.parse(localStorage.getItem("users")) || {};
 
- users[username] = {
-   password: password,
-   deviceId: deviceId
- };
+  for (let user in users) {
+    if (users[user].deviceId === deviceId) {
+      alert("Thiết bị này đã đăng ký tài khoản khác!");
+      return;
+    }
+  }
 
- localStorage.setItem("users", JSON.stringify(users));
+  users[username] = {
+    password: password,
+    deviceId: deviceId
+  };
 
- alert("Đăng ký thành công");
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Đăng ký thành công");
+
 }
-
 
 
 /* LOGIN */
 
 async function login() {
 
-    const username = document.getElementById("Username").value;
-    const password = document.getElementById("Password").value;
+  const username = document.getElementById("user").value;
+  const password = document.getElementById("pass").value;
 
-    let users = JSON.parse(localStorage.getItem("users")) || {};
+  let users = JSON.parse(localStorage.getItem("users")) || {};
 
-    if (!users[username]) {
-        alert("Tài khoản không tồn tại");
-        return;
-    }
+  if (!users[username]) {
+    alert("Tài khoản không tồn tại");
+    return;
+  }
 
-    if (users[username].password !== password) {
-        alert("Sai mật khẩu");
-        return;
-    }
+  if (users[username].password !== password) {
+    alert("Sai mật khẩu");
+    return;
+  }
 
-    const deviceId = await getDeviceID();
+  const deviceId = await getDeviceID();
 
-    alert("Đăng nhập thành công");
+  if (users[username].deviceId !== deviceId) {
+    alert("Sai thiết bị đăng nhập");
+    return;
+  }
 
-    sendCheckin(username, password, deviceId);
+  alert("Đăng nhập thành công");
+
+  sendCheckin(username, password, deviceId);
 
 }
 
-/* CHECKIN */
+
+/* CHECKIN GOOGLE SHEET */
+
 async function sendCheckin(username, password, deviceId) {
 
   const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
-  const res = await fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    username: username,
-    password: password,
-    deviceId: deviceId,
-    action: "checkin"
-  })
-});
+  try {
 
-  const result = await res.text();
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        deviceId: deviceId,
+        action: "checkin"
+      })
+    });
 
-  if (result === "SUCCESS") {
-    alert("Chấm công thành công");
-  }
+    const result = await res.text();
 
-  if (result === "WRONG_DEVICE") {
-    alert("Thiết bị không hợp lệ");
+    if (result === "SUCCESS") {
+      alert("Chấm công thành công");
+    }
+
+    if (result === "WRONG_DEVICE") {
+      alert("Thiết bị không hợp lệ");
+    }
+
+  } catch (err) {
+
+    console.log(err);
+    alert("Không kết nối được server");
+
   }
 
 }
