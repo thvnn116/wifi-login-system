@@ -75,14 +75,17 @@ async function sendCheckin(username, password, deviceId) {
   const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
   const res = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      deviceId: deviceId,
-      action: "checkin"
-    })
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    username: username,
+    password: password,
+    deviceId: deviceId,
+    action: "checkin"
+  })
+});
 
   const result = await res.text();
 
