@@ -82,38 +82,37 @@ async function login() {
 
 async function sendCheckin(username, password, deviceId) {
 
-  const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
+const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
-  try {
+const params = new URLSearchParams({
+username: username,
+password: password,
+deviceId: deviceId,
+action: "checkin"
+});
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        deviceId: deviceId,
-        action: "checkin"
-      })
-    });
+try {
 
-    const result = await res.text();
+const res = await fetch(url, {
+method: "POST",
+body: params
+});
 
-    if (result === "SUCCESS") {
-      alert("Chấm công thành công");
-    }
+const result = await res.text();
 
-    if (result === "WRONG_DEVICE") {
-      alert("Thiết bị không hợp lệ");
-    }
+if (result === "SUCCESS") {
+alert("Chấm công thành công");
+}
 
-  } catch (err) {
+if (result === "WRONG_DEVICE") {
+alert("Sai thiết bị");
+}
 
-    console.log(err);
-    alert("Không kết nối được server");
+} catch (err) {
 
-  }
+console.log(err);
+alert("Không kết nối được server");
+
+}
 
 }
