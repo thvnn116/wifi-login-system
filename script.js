@@ -44,34 +44,25 @@ async function register() {
 
 /* LOGIN */
 
-async function login(){
+function login() {
 
-const username = document.getElementById("newUsername").value;
-const password = document.getElementById("newPassword").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-  const deviceId = await getDeviceID();
+    let users = JSON.parse(localStorage.getItem("users")) || {};
 
-  let users = JSON.parse(localStorage.getItem("users")) || {};
+    if (!users[username]) {
+        alert("Tài khoản không tồn tại");
+        return;
+    }
 
-  if (!users[username]) {
-    alert("Tài khoản không tồn tại");
-    return;
-  }
+    if (users[username].password !== password) {
+        alert("Sai mật khẩu");
+        return;
+    }
 
-  if (users[username].password !== password) {
-    alert("Sai mật khẩu");
-    return;
-  }
-
-  if (users[username].deviceId !== deviceId) {
-    alert("Thiết bị này không được phép đăng nhập tài khoản này");
-    return;
-  }
-
-  alert("Đăng nhập thành công!");
-  sendCheckin(username, password, deviceId);
-
-window.location="dashboard.html";
+    alert("Đăng nhập thành công");
+    sendCheckin(username, password, deviceId);
 
 }
 
