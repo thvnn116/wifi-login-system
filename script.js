@@ -44,7 +44,7 @@ async function register() {
 
 /* LOGIN */
 
-function login() {
+async function login() {
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -61,7 +61,10 @@ function login() {
         return;
     }
 
+    const deviceId = await getDeviceID();
+
     alert("Đăng nhập thành công");
+
     sendCheckin(username, password, deviceId);
 
 }
