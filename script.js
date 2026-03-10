@@ -106,9 +106,18 @@ async function login() {
     return;
   }
 
-  alert("Đăng nhập thành công");
+  let user = users[username];
 
-  sendCheckin(username, password, deviceId);
+  localStorage.setItem("currentUser", JSON.stringify({
+  username: username,
+  password: password,
+  deviceId: deviceId,
+  role: user.role,
+  department: user.department,
+  shift: "08:00 - 17:00"
+  }));
+  
+  window.location.href = "dashboard.html";
 
 }
 
