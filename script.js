@@ -46,8 +46,8 @@ async function register() {
 
 async function login() {
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("Username").value;
+    const password = document.getElementById("Password").value;
 
     let users = JSON.parse(localStorage.getItem("users")) || {};
 
