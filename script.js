@@ -40,6 +40,31 @@ async function register() {
 
   localStorage.setItem("users", JSON.stringify(users));
 
+  /* GỬI DỮ LIỆU LÊN GOOGLE SHEET */
+
+  const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
+
+  const query =
+    "?action=register" +
+    "&username=" + encodeURIComponent(username) +
+    "&password=" + encodeURIComponent(password) +
+    "&deviceId=" + encodeURIComponent(deviceId);
+
+  try {
+
+    await fetch(url + query, {
+      method: "GET",
+      mode: "no-cors"
+    });
+
+    console.log("Đã gửi đăng ký lên Google Sheet");
+
+  } catch (err) {
+
+    console.log("Lỗi gửi dữ liệu:", err);
+
+  }
+
   alert("Đăng ký thành công");
 
 }
