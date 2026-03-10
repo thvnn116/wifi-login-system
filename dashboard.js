@@ -16,15 +16,14 @@ document.getElementById("empShift").innerText = user.shift;
 
 async function checkin(){
 
-const deviceId = await getDeviceID();
-
 const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
 const query =
 "?action=checkin" +
 "&username=" + user.username +
 "&password=" + user.password +
-"&deviceId=" + deviceId;
+"&deviceId=" + user.deviceId +
+"&shift=" + user.shift;
 
 fetch(url + query,{
 method:"GET",
