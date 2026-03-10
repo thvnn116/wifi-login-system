@@ -16,6 +16,8 @@ async function register() {
 
   const username = document.getElementById("newUsername").value;
   const password = document.getElementById("newPassword").value;
+  const role = document.getElementById("newRole").value;
+  const dept = document.getElementById("newDept").value;
 
   if (!username || !password) {
     alert("Vui lòng nhập đầy đủ thông tin");
@@ -35,7 +37,9 @@ async function register() {
 
   users[username] = {
     password: password,
-    deviceId: deviceId
+    deviceId: deviceId,
+    role: role,
+    department: dept
   };
 
   localStorage.setItem("users", JSON.stringify(users));
@@ -45,10 +49,12 @@ async function register() {
   const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
   const query =
-    "?action=register" +
-    "&username=" + encodeURIComponent(username) +
-    "&password=" + encodeURIComponent(password) +
-    "&deviceId=" + encodeURIComponent(deviceId);
+  "?action=register" +
+  "&username=" + encodeURIComponent(username) +
+  "&password=" + encodeURIComponent(password) +
+  "&deviceId=" + encodeURIComponent(deviceId) +
+  "&role=" + encodeURIComponent(role) +
+  "&department=" + encodeURIComponent(dept);
 
   try {
 
