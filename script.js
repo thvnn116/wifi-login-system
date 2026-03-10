@@ -84,29 +84,20 @@ async function sendCheckin(username, password, deviceId) {
 
 const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
-const params = new URLSearchParams({
-username: username,
-password: password,
-deviceId: deviceId,
-action: "checkin"
-});
+const query =
+"?username=" + encodeURIComponent(username) +
+"&password=" + encodeURIComponent(password) +
+"&deviceId=" + encodeURIComponent(deviceId) +
+"&action=checkin";
 
 try {
 
-const res = await fetch(url, {
-method: "POST",
-body: params
+await fetch(url + query, {
+method: "GET",
+mode: "no-cors"
 });
 
-const result = await res.text();
-
-if (result === "SUCCESS") {
-alert("Chấm công thành công");
-}
-
-if (result === "WRONG_DEVICE") {
-alert("Sai thiết bị");
-}
+alert("Đã gửi check-in");
 
 } catch (err) {
 
