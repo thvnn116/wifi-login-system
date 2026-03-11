@@ -55,7 +55,6 @@ alert("Chấm công thành công");
 }
 
 
-
 /* ẨN TRẠNG THÁI NÚT */
 window.onload = function(){
 
@@ -70,5 +69,14 @@ btn.innerText = "Đã chấm công";
 btn.disabled = true;
 
 }
+
+}
+
+/* ĐĂNG XUẤT */
+function logout(){
+
+localStorage.removeItem("currentUser");
+
+window.location.href = "index.html";
 
 }
