@@ -24,12 +24,24 @@ const query =
 "?action=checkin" +
 "&username=" + user.username +
 "&deviceId=" + user.deviceId +
-"&shift=" + user.shift;
+"&shift=" + encodeURIComponent(user.shift);
 
-await fetch(url + query,{
-method:"GET",
-mode:"no-cors"
-});
+const res = await fetch(url + query);
+const text = await res.text();
+
+if(text == "already_checked"){
+
+alert("Bạn đã chấm công hôm nay rồi");
+
+const btn = document.getElementById("checkinBtn");
+btn.innerText = "Đã chấm công";
+btn.disabled = true;
+
+localStorage.setItem("checkedToday","true");
+
+return;
+
+}
 
 const btn = document.getElementById("checkinBtn");
 
