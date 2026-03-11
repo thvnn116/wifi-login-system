@@ -13,7 +13,7 @@ document.getElementById("empDept").innerText = user.department;
 document.getElementById("empShift").innerText = user.shift;
 
 
-
+/* CHECKIN */
 async function checkin(){
 
 const user = JSON.parse(localStorage.getItem("currentUser"));
@@ -37,5 +37,21 @@ btn.innerText = "Đã chấm công";
 btn.disabled = true;
 
 alert("Chấm công thành công");
+
+}
+
+/* ẨN TRẠNG THÁI NÚT */
+window.onload = function(){
+
+const checked = localStorage.getItem("checkedToday");
+
+if(checked){
+
+const btn = document.getElementById("checkinBtn");
+
+btn.innerText = "Đã chấm công";
+btn.disabled = true;
+
+}
 
 }
