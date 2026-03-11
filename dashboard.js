@@ -60,8 +60,9 @@ alert("Chấm công thành công");
 window.onload = function(){
 
 const checked = localStorage.getItem("checkedToday");
+const today = new Date().toDateString();
 
-if(checked){
+if(checked === today){
 
 const btn = document.getElementById("checkinBtn");
 
