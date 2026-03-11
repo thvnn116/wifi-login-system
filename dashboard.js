@@ -36,9 +36,13 @@ const btn = document.getElementById("checkinBtn");
 btn.innerText = "Đã chấm công";
 btn.disabled = true;
 
+localStorage.setItem("checkedToday", "true");
+  
 alert("Chấm công thành công");
 
 }
+
+
 
 /* ẨN TRẠNG THÁI NÚT */
 window.onload = function(){
