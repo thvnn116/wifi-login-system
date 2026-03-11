@@ -1,5 +1,6 @@
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
+// CHẶN TRUY CẬP TRỰC TIẾP DASHBOARD
 if(!localStorage.getItem("currentUser")){
 window.location.href = "index.html";
 }
