@@ -1,5 +1,9 @@
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
+if(!localStorage.getItem("currentUser")){
+window.location.href = "index.html";
+}
+
 if(!user){
 alert("Chưa đăng nhập");
 window.location.href = "/";
