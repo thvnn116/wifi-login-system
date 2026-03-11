@@ -76,6 +76,8 @@ async function register() {
   // XÓA DỮ LIỆU INPUT
   document.getElementById("newUsername").value = "";
   document.getElementById("newPassword").value = "";
+  document.getElementById("newRole").value = "";
+  document.getElementById("newDept").value = "";
 
 }
 
