@@ -37,7 +37,7 @@ const btn = document.getElementById("checkinBtn");
 btn.innerText = "Đã chấm công";
 btn.disabled = true;
 
-localStorage.setItem("checkedToday","true");
+localStorage.setItem("checkedToday", new Date().toDateString());
 
 return;
 
