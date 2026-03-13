@@ -1,10 +1,5 @@
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
-document.getElementById("username").innerText = user.username;
-document.getElementById("role").innerText = user.role;
-document.getElementById("department").innerText = user.department;
-
-
 // CHẶN TRUY CẬP TRỰC TIẾP DASHBOARD
 if(!localStorage.getItem("currentUser")){
   window.location.href = "index.html";
