@@ -25,24 +25,7 @@ async function register() {
   }
 
   const deviceId = await getDeviceID();
-
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-  for (let user in users) {
-    if (users[user].deviceId === deviceId) {
-      alert("Thiết bị này đã đăng ký tài khoản khác!");
-      return;
-    }
-  }
-
-  users[username] = {
-    password: password,
-    deviceId: deviceId,
-    role: role,
-    department: dept
-  };
-
-  localStorage.setItem("users", JSON.stringify(users));
+  
 
   /* GỬI DỮ LIỆU LÊN GOOGLE SHEET */
 
@@ -95,7 +78,7 @@ const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tf
 
 const query =
 "?action=login" +
-"&username=" + username +
+"&username=" + encodeURIComponent(username) +
 "&password=" + password +
 "&deviceId=" + deviceId;
 
@@ -124,36 +107,5 @@ user.deviceId = deviceId;
 localStorage.setItem("currentUser", JSON.stringify(user));
 
 window.location.href = "dashboard.html";
-
-}
-
-
-/* CHECKIN GOOGLE SHEET */
-
-async function sendCheckin(username, password, deviceId) {
-
-const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
-
-const query =
-"?username=" + encodeURIComponent(username) +
-"&password=" + encodeURIComponent(password) +
-"&deviceId=" + encodeURIComponent(deviceId) +
-"&action=checkin";
-
-try {
-
-await fetch(url + query, {
-method: "GET",
-mode: "no-cors"
-});
-
-alert("Đã gửi check-in");
-
-} catch (err) {
-
-console.log(err);
-alert("Không kết nối được server");
-
-}
 
 }
