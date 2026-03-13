@@ -84,42 +84,46 @@ async function register() {
 
 /* LOGIN */
 
-async function login() {
+async function login(){
 
-  const username = document.getElementById("user").value;
-  const password = document.getElementById("pass").value;
+const username = document.getElementById("user").value;
+const password = document.getElementById("pass").value;
 
-  let users = JSON.parse(localStorage.getItem("users")) || {};
+const deviceId = await getDeviceID();
 
-  if (!users[username]) {
-    alert("Tài khoản không tồn tại");
-    return;
-  }
+const url = "https://script.google.com/macros/s/AKfycbw-hlUyOgU_eerQnykqBLRbz7Tfrn1U9AJnhnInqGQBU1FAuFtnNKyKXQTkPVuxP0jh/exec";
 
-  if (users[username].password !== password) {
-    alert("Sai mật khẩu");
-    return;
-  }
+const query =
+"?action=login" +
+"&username=" + username +
+"&password=" + password +
+"&deviceId=" + deviceId;
 
-  const deviceId = await getDeviceID();
+const res = await fetch(url + query);
+const text = await res.text();
 
-  if (users[username].deviceId !== deviceId) {
-    alert("Sai thiết bị đăng nhập");
-    return;
-  }
+if(text == "not_found"){
+alert("Tài khoản không tồn tại");
+return;
+}
 
-  let user = users[username];
+if(text == "wrong_password"){
+alert("Sai mật khẩu");
+return;
+}
 
-  localStorage.setItem("currentUser", JSON.stringify({
-  username: username,
-  password: password,
-  deviceId: deviceId,
-  role: user.role,
-  department: user.department,
-  shift: "08:00 - 17:00"
-  }));
-  
-  window.location.href = "dashboard.html";
+if(text == "wrong_device"){
+alert("Sai thiết bị đăng nhập");
+return;
+}
+
+const user = JSON.parse(text);
+
+user.deviceId = deviceId;
+
+localStorage.setItem("currentUser", JSON.stringify(user));
+
+window.location.href = "dashboard.html";
 
 }
 
