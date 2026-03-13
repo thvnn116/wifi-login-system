@@ -1,14 +1,10 @@
-const user = JSON.parse(localStorage.getItem("currentUser"));
+const userData = localStorage.getItem("currentUser");
 
-// CHẶN TRUY CẬP TRỰC TIẾP DASHBOARD
-if(!localStorage.getItem("currentUser")){
+if(!userData){
   window.location.href = "index.html";
 }
 
-if(!user){
-  alert("Chưa đăng nhập");
-  window.location.href = "/";
-}
+const user = JSON.parse(userData);
 
 // hiển thị thông tin nhân viên
 
@@ -53,7 +49,7 @@ const btn = document.getElementById("checkinBtn");
 btn.innerText = "Đã chấm công";
 btn.disabled = true;
 
-localStorage.setItem("checkedToday", "true");
+localStorage.setItem("checkedToday", new Date().toDateString());
   
 alert("Chấm công thành công");
 
