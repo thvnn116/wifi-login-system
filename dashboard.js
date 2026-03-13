@@ -7,12 +7,12 @@ document.getElementById("department").innerText = user.department;
 
 // CHẶN TRUY CẬP TRỰC TIẾP DASHBOARD
 if(!localStorage.getItem("currentUser")){
-window.location.href = "index.html";
+  window.location.href = "index.html";
 }
 
 if(!user){
-alert("Chưa đăng nhập");
-window.location.href = "/";
+  alert("Chưa đăng nhập");
+  window.location.href = "/";
 }
 
 // hiển thị thông tin nhân viên
@@ -86,6 +86,7 @@ btn.disabled = true;
 function logout(){
 
 localStorage.removeItem("currentUser");
+localStorage.removeItem("checkedToday");
 
 window.location.href = "index.html";
 
